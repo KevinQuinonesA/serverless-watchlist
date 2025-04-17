@@ -1,21 +1,21 @@
 # Serverless CRUD API
 
-This project is a serverless CRUD API for managing a stock watchlist using AWS Lambda, PostgreSQL, and API Gateway. It allows users to create, read, update, and delete watchlist items.
+This project is a serverless CRUD API for managing a stock watchlist using AWS Lambda, PostgreSQL, and API Gateway. It allows users to create, read, and delete watchlist items.
 
 ## Features
 
 - **Create Watchlist Item**: Add a stock to the watchlist.
 - **Read Watchlist Items**: Retrieve the list of stocks in the watchlist.
-- **Update Watchlist Item**: Modify an existing stock in the watchlist.
 - **Delete Watchlist Item**: Remove a stock from the watchlist.
 
 ## Technologies Used
 
 - AWS Lambda
 - AWS API Gateway
-- PostgreSQL
+- PostgreSQL (Supabase)
 - TypeScript
-- Terraform for Infrastructure as Code
+- Serverless Framework
+- Mocha/Chai for Testing
 
 ## Project Structure
 
@@ -23,17 +23,25 @@ This project is a serverless CRUD API for managing a stock watchlist using AWS L
 serverless-crud-api
 ├── src
 │   ├── functions          # Lambda functions for CRUD operations
-│   ├── models             # Data models
-│   └── types              # TypeScript types and interfaces
-├── infrastructure          # Terraform configuration files
-├── scripts                # Deployment and migration scripts
-├── migrations             # SQL migration files
+│   │   ├── create.ts      # Add stocks to watchlist
+│   │   ├── read.ts        # Get watchlist items
+│   │   ├── delete.ts      # Remove stocks from watchlist
+│   │   └── common         # Shared utilities
+│   │       ├── db.ts      # Database connection
+│   │       └── responses.ts # Response formatters
 ├── test                   # Unit and integration tests
+│   ├── functions          # Unit tests for Lambda functions
+│   │   ├── create.test.ts
+│   │   ├── read.test.ts
+│   │   └── delete.test.ts
+│   ├── mocks              # Test mocks
+│   │   └── db-mock.ts     # Database mocks
 ├── .github                # GitHub Actions workflows
+├── migrations             # SQL migration files
 ├── serverless.yml         # Serverless Framework configuration
 ├── package.json           # npm configuration
 ├── tsconfig.json          # TypeScript configuration
-└── jest.config.js         # Jest configuration
+└── .mocharc.json          # Mocha configuration
 ```
 
 ## Setup Instructions
@@ -49,19 +57,28 @@ serverless-crud-api
    npm install
    ```
 
-3. **Configure environment variables**:
-   Create a `.env` file in the root directory and add your AWS and database configuration.
-
-4. **Deploy the application**:
-   Run the deployment script:
+3. **Configure environment variables: Create a .env file in the root directory:**:
    ```
-   ./scripts/deploy.sh
+   DATABASE_URL=postgresql://postgres.username:password@aws-0-us-east-1.pooler.supabase.com:6543/postgres
    ```
 
-5. **Run migrations**:
-   To set up the initial database schema, run:
+4. **Set up your database: Run the following SQL in your Supabase SQL editor:**:
    ```
-   ./scripts/migrate.sh
+   migrations/001_initial_schema.sql
+   ```
+
+5. **Deploy the application:**
+   ```
+   # Store database connection in AWS SSM Parameter Store
+   aws ssm put-parameter --name "/watchlist-app/database-url" --type "SecureString" --value "your-db-connection-string"
+
+   # Deploy with Serverless Framework
+   npx serverless deploy
+   ```
+## Local Development
+   ```
+   # Start the local development server
+   npx serverless offline start
    ```
 
 ## Running Tests
@@ -70,6 +87,11 @@ To run the unit and integration tests, use:
 ```
 npm test
 ```
+
+## AWS Services Used
+- Lambda: Serverless functions for API endpoints
+- API Gateway: HTTP API endpoints
+- Systems Manager Parameter Store: Secure storage of database credentials
 
 ## License
 

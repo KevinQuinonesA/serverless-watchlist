@@ -46,6 +46,3 @@ aws-exports.js
 *.tsbuildinfo
 .tscache/
 tsconfig.tsbuildinfo
-
-.github/
-
