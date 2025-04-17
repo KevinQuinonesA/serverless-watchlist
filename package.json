@@ -1,0 +1,41 @@
+{
+  "name": "serverless-crud-api",
+  "version": "1.0.0",
+  "description": "A CRUD API for managing a stock watchlist using AWS Lambda, PostgreSQL, and API Gateway.",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "serverless offline",
+    "deploy": "bash scripts/deploy.sh",
+    "migrate": "bash scripts/migrate.sh",
+    "test": "mocha"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1692.0",
+    "pg": "^8.14.1",
+    "serverless": "4.12.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^5.2.1",
+    "@types/jest": "^27.0.2",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^16.11.7",
+    "@types/sinon": "^17.0.4",
+    "chai": "^5.2.0",
+    "chai-as-promised": "^8.0.1",
+    "mocha": "^11.1.0",
+    "serverless-offline": "^14.4.0",
+    "sinon": "^20.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^4.5.4"
+  },
+  "keywords": [
+    "AWS",
+    "Lambda",
+    "API Gateway",
+    "PostgreSQL",
+    "CRUD"
+  ],
+  "author": "Kevin Quinones",
+  "license": "MIT"
+}

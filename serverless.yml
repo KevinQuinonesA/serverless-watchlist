@@ -1,0 +1,42 @@
+service: serverless-crud-api
+
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  environment:
+    DATABASE_URL: ${ssm:/watchlist-app/database-url}
+
+functions:
+  createWatchlistItem:
+    handler: src/functions/create.createWatchlistItem
+    events:
+      - http:
+          path: watchlist
+          method: post
+          cors: true
+  getWatchlistItems:
+    handler: src/functions/read.getWatchlistItems
+    events:
+      - http:
+          path: watchlist
+          method: get
+          cors: true
+  deleteWatchlistItem:
+    handler: src/functions/delete.deleteWatchlistItem
+    events:
+      - http:
+          path: watchlist/{symbol}
+          method: delete
+          cors: true
+
+plugins:
+  - serverless-offline
+
+build:
+  esbuild:
+    bundle: true
+    minify: true
+    sourcemap: true
