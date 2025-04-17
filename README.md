@@ -2,6 +2,11 @@
 
 This project is a serverless CRUD API for managing a stock watchlist using AWS Lambda, PostgreSQL, and API Gateway. It allows users to create, read, and delete watchlist items.
 
+## Test an EP
+You can test this endpoint since it does not need any extra param or body.
+
+https://qfnjrphgbe.execute-api.us-east-1.amazonaws.com/dev/watchlist
+
 ## Features
 
 - **Create Watchlist Item**: Add a stock to the watchlist.
@@ -87,6 +92,17 @@ To run the unit and integration tests, use:
 ```
 npm test
 ```
+
+
+## User Authentication
+
+Note: This API does not include authentication. By default, it uses a `user_id` of 123. You can override this by providing a custom `userId` as a query parameter:
+
+```
+GET /watchlist?userId=456
+
+```
+
 
 ## AWS Services Used
 - Lambda: Serverless functions for API endpoints
