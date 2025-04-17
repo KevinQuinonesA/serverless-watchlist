@@ -8,6 +8,8 @@ provider:
   region: us-east-1
   environment:
     DATABASE_URL: ${ssm:/watchlist-app/database-url}
+  httpApi:
+    cors: true
 
 functions:
   createWatchlistItem:

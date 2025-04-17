@@ -1,5 +1,5 @@
 import { connectToDatabase } from '../functions/common/db';
-import { errorResponse } from '../functions/common/responses';
+import { errorResponse, successResponse } from '../functions/common/responses';
 
 export const createWatchlistItem = async (event: any) => {
     if (!event.body) {
@@ -30,10 +30,7 @@ export const createWatchlistItem = async (event: any) => {
 
         const newItem = result.rows[0];
 
-        return {
-            statusCode: 201,
-            body: JSON.stringify(newItem),
-        };
+        return successResponse(newItem, 201);
     } catch (error) {
         console.error('Error inserting item:', error);
         return errorResponse('Could not create watchlist item', 500);

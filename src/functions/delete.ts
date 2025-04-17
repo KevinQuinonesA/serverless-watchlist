@@ -1,4 +1,6 @@
 import { connectToDatabase } from '../functions/common/db';
+import { successResponse, errorResponse } from '../functions/common/responses';
+
 
 export const deleteWatchlistItem = async (event: any) => {
     const { symbol } = event.pathParameters;
@@ -16,24 +18,14 @@ export const deleteWatchlistItem = async (event: any) => {
 
         try {
             if (result.rowCount === 0) {
-                return {
-                    statusCode: 404,
-                    body: JSON.stringify({ message: 'Watchlist item not found' }),
-                };
+                return errorResponse('Watchlist item not found', 404);  
             }
-
-            return {
-                statusCode: 200,
-                body: JSON.stringify({ message: 'Watchlist item deleted successfully' }),
-            };
+            return successResponse({ message: 'Watchlist item deleted successfully' });
         } finally {
             client.release();
         }
     } catch (error) {
         console.error('Error deleting watchlist item:', error);
-        return {
-            statusCode: 500,
-            body: JSON.stringify({ message: 'Internal server error' }),
-        };
+        return errorResponse('Internal server error', 500);
     }
 };
